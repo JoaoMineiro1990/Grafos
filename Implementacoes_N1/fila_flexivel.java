@@ -1,4 +1,4 @@
-package Implementacoes_N1;
+//package Implementacoes_N1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -98,6 +98,7 @@ public class fila_flexivel {
      * @throws Exception erro desconhecido ao abrir o arquivo
      */
 
+
     public static Grafo criarGrafo(int numVertices, String caminho){
 
         Grafo grafo = new Grafo(numVertices);
@@ -127,7 +128,7 @@ public class fila_flexivel {
         String caminho = "C:\\Users\\joao_\\Desktop\\Grafos\\graph-test-50000-1.txt";
         Grafo grafo = criarGrafo(numVertices,caminho);
         
-        int vertice = 50000;
+        int vertice = 70;
         int grau_saida = grafo.getSaida(vertice);
         int grau_entrada = grafo.getEntrada(vertice);
         System.out.println("O vertice " + vertice + " possui:\n" +
