@@ -19,15 +19,16 @@ public class TrabalhoPratico1 {
         
         return articulacoes;
     }
+
     public static void main(String[] args){
 
         //! Lembrar de mudar o path antes de enviar
         String path = "C:\\Users\\joao_\\Desktop\\Grafos\\graph-test-100-1.txt";
 
-        int num = 100;
+        int num = 100000;
         GrafoInterativo grafo = new GrafoInterativo(num);  
-        List<Integer> articulacoes = findJoints(grafo);
-        System.out.println(articulacoes);
-        
+         TarjanStack tarjan = new TarjanStack(grafo);
+         tarjan.imprimirPontosDeArticulacao();
+        System.out.println("terminei");
     }
 }

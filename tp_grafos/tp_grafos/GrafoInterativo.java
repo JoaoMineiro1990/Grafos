@@ -84,7 +84,7 @@ class GrafoInterativo {
             count++;
         }
         // Densidade desejada de arestas
-        int ArestasDesejadas = (int)(vertices* 2);
+        int ArestasDesejadas = (int)(vertices* 10);
         int arestasFaltantes = ArestasDesejadas - count;
 
         // Adiciona arestas aleatórias até atingir a densidade desejada
@@ -433,6 +433,20 @@ class GrafoInterativo {
             }
         }
         return todosSucessores;
+    }
+    public List<Integer> getSucessoresDiretos(int vertice) {
+        return adjList.getOrDefault(vertice, Collections.emptyList());
+    }
+    public int[] getTD() {
+        return TD;
+    }
+    
+    public int[] getTT() {
+        return TT;
+    }
+    
+    public int[] getPai() {
+        return pai;
     }
 
 }
