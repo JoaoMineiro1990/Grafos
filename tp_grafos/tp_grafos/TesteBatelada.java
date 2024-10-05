@@ -8,10 +8,9 @@ import java.util.concurrent.*;
 
 public class TesteBatelada {
 
-    // private static final int[] TAMANHOS = {100, 1000, 10000, 100000}; // Tamanhos grandes para teste posterior
-    private static final int[] TAMANHOS = {10,100,1000}; // Tamanhos para teste
+    private static final int[] TAMANHOS = {10, 100, 1000,10000,100000}; // Tamanhos para teste
     private static final int REPETICOES = 30; // Número de repetições para cada teste
-    private static final long LIMITE_TEMPO = 4 * 60 * 1000; // 4 minutos em milissegundos
+    private static final long LIMITE_TEMPO = 1 * 60 * 1000; // 1 minuto em milissegundos
 
     public static void main(String[] args) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultados_teste.txt"))) {
@@ -43,6 +42,11 @@ public class TesteBatelada {
                 int execucoesSucessoFindJoints = 0;
                 int execucoesSucessoTarjan = 0;
 
+                // Contadores de execuções que estouraram o tempo limite
+                int estourouTempoVerificarBiconectividade = 0;
+                int estourouTempoFindJoints = 0;
+                int estourouTempoTarjan = 0;
+
                 List<Future<Long>> futuresVerificarBiconectividade = new ArrayList<>();
                 List<Future<Long>> futuresFindJoints = new ArrayList<>();
                 List<Future<Long>> futuresTarjan = new ArrayList<>();
@@ -50,7 +54,7 @@ public class TesteBatelada {
                 // Submete todas as 30 execuções de cada método
                 for (int i = 0; i < REPETICOES; i++) {
                     TarjanArticulation grafo = new TarjanArticulation(tamanho);
-
+                
                     // Submete a execução de verificarBiconectividadeGrafo
                     futuresVerificarBiconectividade.add(executor.submit(() -> registrarTempo(() -> grafo.verificarBiconectividadeGrafo())));
 
@@ -69,8 +73,11 @@ public class TesteBatelada {
                         maiorVerificarBiconectividade = Math.max(maiorVerificarBiconectividade, tempo);
                         menorVerificarBiconectividade = Math.min(menorVerificarBiconectividade, tempo);
                         execucoesSucessoVerificarBiconectividade++;
+                    } catch (TimeoutException e) {
+                        estourouTempoVerificarBiconectividade++;
+                        consoleErr.println("Tempo excedido em verificarBiconectividadeGrafo");
                     } catch (Exception e) {
-                        consoleErr.println("Erro ou tempo excedido em verificarBiconectividadeGrafo");
+                        consoleErr.println("Erro em verificarBiconectividadeGrafo");
                         e.printStackTrace(consoleErr);
                     }
                 }
@@ -83,8 +90,11 @@ public class TesteBatelada {
                         maiorFindJoints = Math.max(maiorFindJoints, tempo);
                         menorFindJoints = Math.min(menorFindJoints, tempo);
                         execucoesSucessoFindJoints++;
+                    } catch (TimeoutException e) {
+                        estourouTempoFindJoints++;
+                        consoleErr.println("Tempo excedido em findJoints");
                     } catch (Exception e) {
-                        consoleErr.println("Erro ou tempo excedido em findJoints");
+                        consoleErr.println("Erro em findJoints");
                         e.printStackTrace(consoleErr);
                     }
                 }
@@ -97,8 +107,11 @@ public class TesteBatelada {
                         maiorTarjan = Math.max(maiorTarjan, tempo);
                         menorTarjan = Math.min(menorTarjan, tempo);
                         execucoesSucessoTarjan++;
+                    } catch (TimeoutException e) {
+                        estourouTempoTarjan++;
+                        consoleErr.println("Tempo excedido em encontrarPontosDeArticulacao");
                     } catch (Exception e) {
-                        consoleErr.println("Erro ou tempo excedido em encontrarPontosDeArticulacao");
+                        consoleErr.println("Erro em encontrarPontosDeArticulacao");
                         e.printStackTrace(consoleErr);
                     }
                 }
@@ -116,21 +129,24 @@ public class TesteBatelada {
                 System.out.println("Tempo total: " + tempoTotalVerificarBiconectividade + " ms");
                 System.out.println("Execução mais demorada: " + maiorVerificarBiconectividade + " ms");
                 System.out.println("Execução menos demorada: " + menorVerificarBiconectividade + " ms");
-                System.out.println("Tempo médio: " + mediaVerificarBiconectividade + " ms\n");
+                System.out.println("Tempo médio: " + mediaVerificarBiconectividade + " ms");
+                System.out.println("Execuções que estouraram o tempo: " + estourouTempoVerificarBiconectividade + "\n");
 
                 // Exibe as métricas finais para findJoints
                 System.out.println("Métricas para findJoints:");
                 System.out.println("Tempo total: " + tempoTotalFindJoints + " ms");
                 System.out.println("Execução mais demorada: " + maiorFindJoints + " ms");
                 System.out.println("Execução menos demorada: " + menorFindJoints + " ms");
-                System.out.println("Tempo médio: " + mediaFindJoints + " ms\n");
+                System.out.println("Tempo médio: " + mediaFindJoints + " ms");
+                System.out.println("Execuções que estouraram o tempo: " + estourouTempoFindJoints + "\n");
 
                 // Exibe as métricas finais para encontrarPontosDeArticulacao
                 System.out.println("Métricas para encontrarPontosDeArticulacao:");
                 System.out.println("Tempo total: " + tempoTotalTarjan + " ms");
                 System.out.println("Execução mais demorada: " + maiorTarjan + " ms");
                 System.out.println("Execução menos demorada: " + menorTarjan + " ms");
-                System.out.println("Tempo médio: " + mediaTarjan + " ms\n");
+                System.out.println("Tempo médio: " + mediaTarjan + " ms");
+                System.out.println("Execuções que estouraram o tempo: " + estourouTempoTarjan + "\n");
             }
 
             fileOut.close(); // Fecha o stream de saída para o arquivo
