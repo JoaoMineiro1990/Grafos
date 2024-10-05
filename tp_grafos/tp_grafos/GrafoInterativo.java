@@ -1,26 +1,15 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
-class GrafoInterativo {
-    
+class GrafoInterativo implements Runnable, Cloneable {
+
     // Classe para representar o tipo de aresta
-    private Map<Integer, List<Integer>> adjList; // hashmap para armazenar os vértices e suas respectivas listas de adjacência
+    private Map<Integer, List<Integer>> adjList; // Lista de adjacência
     private int[] TD; // Tempo de Descoberta
     private int[] TT; // Tempo de Término
-    private int[] pai; // Array que guarda o "pai" de cada vértice na DFS
+    private int[] pai; // Pai na DFS
 
     // Contador para marcar o tempo de descoberta e término
     private int contador;
@@ -28,14 +17,8 @@ class GrafoInterativo {
     // Lista que guarda as arestas e seus tipos
     private ArrayList<TypeAresta> arestas;
 
-    /**
-     * Construtor para o grafo que inicializa com o número de vértices
-     * 
-     * @param vertices especificados pelo usuário
-     */
-
+    //Construtor padrão.
     public GrafoInterativo() {
-        // Cria tudo zerado
         adjList = new HashMap<>();
         TD = new int[0];
         TT = new int[0];
@@ -44,19 +27,11 @@ class GrafoInterativo {
     }
 
     /**
-     * Construtor para o grafo que inicializa com o número de vértices
-     * 
-     * @param vertices especificados pelo usuário
-     */
-
-    /**
-     * Método que cria um grafo conexo com o número de vértices especificado
-     * e adiciona arestas aleatórias até atingir a densidade desejada.
-     * 
-     * @param vertices Número de vértices do grafo
+     * Construtor para criar um grafo conexo com arestas aleatórias.
+     *
+     * @param vertices Número de vértices do grafo.
      */
     public GrafoInterativo(int vertices) {
-        // Inicializa as estruturas de dados do grafo
         adjList = new HashMap<>();
         TD = new int[vertices];
         TT = new int[vertices];
@@ -69,23 +44,24 @@ class GrafoInterativo {
             adjList.put(i, new ArrayList<>());
         }
 
-        // Cria uma fila com todos os vértices e embaralha aleatoriamente
+        // Cria uma árvore geradora aleatória para garantir conectividade
         List<Integer> lista = new ArrayList<>();
         for (int i = 1; i <= vertices; i++) {
             lista.add(i);
         }
-        int count = 0;
-        Random rand = new Random();
-        Collections.shuffle(lista, rand);
+
+        Collections.shuffle(lista, new Random());
         for (int v = 1; v < lista.size(); v++) {
             int vertice1 = lista.get(v);
-            int vertice2 = lista.get(rand.nextInt(v)); // Escolhe um vértice aleatório entre 0 e v-1
+            int vertice2 = lista.get(new Random().nextInt(v)); // Escolhe um vértice aleatório entre 0 e v-1
             addAresta(vertice1, vertice2);
-            count++;
+            addAresta(vertice2, vertice1);
         }
-        // Densidade desejada de arestas
-        int ArestasDesejadas = (int)(vertices* 10);
-        int arestasFaltantes = ArestasDesejadas - count;
+
+        // Define a densidade desejada de arestas
+        int arestasDesejadas = (int) (vertices *1.2);
+        int count = adjList.size() - 1; // Número de arestas já adicionadas
+        int arestasFaltantes = arestasDesejadas - count;
 
         // Adiciona arestas aleatórias até atingir a densidade desejada
         Random aleatorio = new Random();
@@ -96,19 +72,19 @@ class GrafoInterativo {
             // Verifica se a aresta não existe e não conecta um vértice a si mesmo
             if (!adjList.get(origem).contains(destino) && origem != destino) {
                 addAresta(origem, destino);
+                addAresta(destino, origem);
                 arestasFaltantes--;
             }
         }
     }
 
     /**
-     * Construtor que recebe um PATH para um arquivo e cria um grafo a partir dele
-     * 
-     * @param numVertices Número de vértices do grafo
-     * @param caminho     Caminho do arquivo
+     * Construtor que recebe um PATH para um arquivo e cria um grafo a partir dele.
+     *
+     * @param numVertices Número de vértices do grafo.
+     * @param caminho     Caminho do arquivo.
      */
     public GrafoInterativo(int numVertices, String caminho) {
-        // Inicializa os atributos da instância
         adjList = new HashMap<>();
         TD = new int[numVertices];
         TT = new int[numVertices];
@@ -152,94 +128,50 @@ class GrafoInterativo {
 
     /**
      * Método para clonar o grafo
-     *  
-     * @param return cópia do grafo
+     *
+     * @return cópia do grafo
      */
     @Override
     public GrafoInterativo clone() {
-        // Cria uma nova instância de GrafoInterativo
-        GrafoInterativo clone = new GrafoInterativo();
-
-        // Clona a lista de adjacência (cópia profunda)
-        clone.adjList = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> entry : this.adjList.entrySet()) {
-            // Clona cada lista de adjacência associada a cada vértice
-            clone.adjList.put(entry.getKey(), new ArrayList<>(entry.getValue()));
-        }
-
-        // Clona os arrays de TD, TT e pai
-        clone.TD = Arrays.copyOf(this.TD, this.TD.length);
-        clone.TT = Arrays.copyOf(this.TT, this.TT.length);
-        clone.pai = Arrays.copyOf(this.pai, this.pai.length);
-
-        // Clona o contador
-        clone.contador = this.contador;
-
-        // Clona a lista de arestas (cópia profunda)
-        clone.arestas = new ArrayList<>();
-        for (TypeAresta aresta : this.arestas) {
-            clone.arestas.add(new TypeAresta(aresta.origem, aresta.destino, aresta.classificacao));
-        }
-
-        return clone;
-    }
-
-    /**
-     * Método para clonar o grafo e remover a direção das arestas
-     * 
-     * @return cópia do grafo não direcionado
-     */
-    public GrafoInterativo CloneConexo() {
-        // Cria uma nova instância de GrafoInterativo
-        GrafoInterativo cloneConexo = new GrafoInterativo();
-
-        // Inicializa a lista de adjacência do clone
-        cloneConexo.adjList = new HashMap<>();
-        for (int vertice : this.adjList.keySet()) {
-            cloneConexo.adjList.put(vertice, new ArrayList<>());
-        }
-
-        // Percorre todas as arestas do grafo original para clonar sem direção
-        for (Map.Entry<Integer, List<Integer>> entry : this.adjList.entrySet()) {
-            int origem = entry.getKey();
-            List<Integer> sucessores = entry.getValue();
-
-            for (int destino : sucessores) {
-                // Adiciona a aresta no sentido original
-                if (!cloneConexo.adjList.get(origem).contains(destino)) {
-                    cloneConexo.adjList.get(origem).add(destino);
-                }
-                // Adiciona a aresta no sentido oposto para tornar o grafo não direcionado
-                if (!cloneConexo.adjList.get(destino).contains(origem)) {
-                    cloneConexo.adjList.get(destino).add(origem);
-                }
+        try {
+            // Cria uma nova instância de GrafoInterativo
+            GrafoInterativo clone = (GrafoInterativo) super.clone();
+    
+            // Clona a lista de adjacência (cópia profunda)
+            clone.adjList = new HashMap<>();
+            for (Map.Entry<Integer, List<Integer>> entry : this.adjList.entrySet()) {
+                clone.adjList.put(entry.getKey(), new ArrayList<>(entry.getValue()));
             }
+    
+            // Clona os arrays de TD, TT e pai
+            clone.TD = Arrays.copyOf(this.TD, this.TD.length);
+            clone.TT = Arrays.copyOf(this.TT, this.TT.length);
+            clone.pai = Arrays.copyOf(this.pai, this.pai.length);
+    
+            // Clona o contador
+            clone.contador = this.contador;
+    
+            // Clona a lista de arestas (cópia profunda)
+            clone.arestas = new ArrayList<>();
+            for (TypeAresta aresta : this.arestas) {
+                clone.arestas.add(new TypeAresta(aresta.origem, aresta.destino, aresta.classificacao));
+            }
+    
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Isto não deveria acontecer, já que estamos clonando um GrafoInterativo
         }
-
-        // Clona os arrays de TD, TT e pai (mesmo tamanho e valores)
-        cloneConexo.TD = Arrays.copyOf(this.TD, this.TD.length);
-        cloneConexo.TT = Arrays.copyOf(this.TT, this.TT.length);
-        cloneConexo.pai = Arrays.copyOf(this.pai, this.pai.length);
-
-        // Clona o contador
-        cloneConexo.contador = this.contador;
-
-
-        return cloneConexo;
     }
 
     /**
      * Método para printar o grafo
      */
     void printGrafo() {
-
         for (Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
             System.out.print(entry.getKey() + " -> ");
-
             for (Integer i : entry.getValue()) {
                 System.out.print(i + " ");
             }
-
             System.out.println();
         }
     }
@@ -268,7 +200,6 @@ class GrafoInterativo {
     }
 
     private void BP(int raiz) {
-
         // Cria uma nova pilha para simulação da recursão e adiciona a raiz
         Stack<Integer> stack = new Stack<>();
         stack.push(raiz);
@@ -294,7 +225,6 @@ class GrafoInterativo {
 
             // Loop para percorrer todos os sucessores do vértice atual
             for (Integer vertice : sucessores) {
-
                 // Para cada sucessor, verifica se ele já foi visitado
                 String edge = atual + " " + vertice;
                 if (visitado.containsKey(edge)) {
@@ -304,9 +234,8 @@ class GrafoInterativo {
                     visitado.put(edge, true);
                 }
 
-                // Se o tempo de descoberta for 0, ele ainda não foi visitado (arvore)
+                // Se o tempo de descoberta for 0, ele ainda não foi visitado (árvore)
                 if (TD[vertice - 1] == 0) {
-
                     // Define `atual` como pai do `vertice`
                     pai[vertice - 1] = atual;
 
@@ -332,7 +261,7 @@ class GrafoInterativo {
                     }
                 }
             }
-            // Se nao ha mais sucessores termina o processamento deste vértice
+            // Se não há mais sucessores, termina o processamento deste vértice
             if (!descoberto) {
                 contador++;
                 TT[atual - 1] = contador;
@@ -347,10 +276,10 @@ class GrafoInterativo {
     }
 
     /**
-     * Retorna as arestas que contém o vértice especificado
-     * 
-     * @param vertice
-     * @return arraylist de arestas
+     * Retorna as arestas que contêm o vértice especificado
+     *
+     * @param vertice Vértice a ser verificado.
+     * @return Lista de arestas que contêm o vértice.
      */
     public ArrayList<TypeAresta> getArestasConjunto(int vertice) {
         ArrayList<TypeAresta> arestasConjunto = new ArrayList<>();
@@ -365,21 +294,23 @@ class GrafoInterativo {
     }
 
     /**
-     * Verifica se o grafo é conexo
-     * @return true ou false
+     * Verifica se o grafo é conexo.
+     *
+     * @param valor Vértice a ser ignorado na verificação (não utilizado aqui).
+     * @return true se o grafo é conexo, false caso contrário.
      */
     public boolean ehConexo(int valor) {
-        GrafoInterativo clone = CloneConexo();
+        GrafoInterativo clone = clone();
         return clone._ehConexo(valor);
     }
 
     /**
-     * Verifica se o grafo é conexo
-     * 
-     * @return true se o grafo é conexo, false caso contrário
+     * Método auxiliar para verificar conectividade.
+     *
+     * @param valor Vértice a ser ignorado na verificação.
+     * @return true se o grafo é conexo após remover o vértice especificado, false caso contrário.
      */
     private boolean _ehConexo(int valor) {
-
         if (adjList.isEmpty()) {
             return true;
         }
@@ -388,7 +319,9 @@ class GrafoInterativo {
         int qualquerVertice = adjList.keySet().iterator().next();
         BP(qualquerVertice);
         for (int i = 0; i < TD.length; i++) {
-            if(i == valor-1){continue;}
+            if (i == valor - 1) {
+                continue;
+            }
             if (TD[i] == 0) {
                 return false;
             }
@@ -397,56 +330,212 @@ class GrafoInterativo {
     }
 
     /**
-     * @param vertice o qual se deseja a lista de sucessores
-     * @return lista de sucessores diretos e indiretos do vertice
+     * Retorna todos os sucessores de um vértice.
+     *
+     * @param vertice Vértice cujo sucessores são retornados.
+     * @return Lista de sucessores diretos do vértice.
      */
-    public List<Integer> getTodosSucessores(int vertice) {
-        // Lista para armazenar todos os sucessores alcançados
-        List<Integer> todosSucessores = new ArrayList<>();
-        // Conjunto para manter o controle dos vértices visitados e evitar ciclos
-        Set<Integer> visitados = new HashSet<>();
-        // Fila para processar os vértices na ordem (utilizada para BFS)
-        Queue<Integer> fila = new LinkedList<>();
-
-        // Adiciona o vértice inicial à fila e ao conjunto de visitados
-        fila.add(vertice);
-        visitados.add(vertice);
-
-        // Enquanto houver vértices a serem processados
-        while (!fila.isEmpty()) {
-            // Remove o vértice da fila
-            int atual = fila.poll();
-            // Adiciona o vértice atual à lista de todos os sucessores
-            todosSucessores.add(atual);
-
-            // Obtém a lista de sucessores do vértice atual
-            List<Integer> sucessores = adjList.getOrDefault(atual, new ArrayList<>());
-
-            // Para cada sucessor do vértice atual
-            for (int sucessor : sucessores) {
-                // Se o sucessor ainda não foi visitado
-                if (!visitados.contains(sucessor)) {
-                    // Marca como visitado e adiciona à fila para processamento
-                    visitados.add(sucessor);
-                    fila.add(sucessor);
-                }
-            }
-        }
-        return todosSucessores;
-    }
     public List<Integer> getSucessoresDiretos(int vertice) {
         return adjList.getOrDefault(vertice, Collections.emptyList());
     }
-    public int[] getTD() {
-        return TD;
-    }
-    
-    public int[] getTT() {
-        return TT;
-    }
-    
-    public int[] getPai() {
-        return pai;
+
+    /**
+     * Verifica se o grafo está conectado.
+     *
+     * @return true se estiver conectado, false caso contrário.
+     */
+    public boolean isConnected() {
+        int numVertices = getNumVertices();
+        if (numVertices == 0 || numVertices == 1) {
+            return true;
+        }
+
+        boolean[] visited = new boolean[numVertices + 1];
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Encontra o primeiro vértice com pelo menos uma aresta
+        int start = 1;
+        while (start <= numVertices && getSucessoresDiretos(start).isEmpty()) {
+            start++;
+        }
+
+        if (start > numVertices) {
+            // Grafo sem arestas (todos vértices isolados)
+            return numVertices <= 1;
+        }
+
+        // BFS a partir do vértice start
+        queue.add(start);
+        visited[start] = true;
+
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            for (int v : getSucessoresDiretos(u)) {
+                if (!visited[v]) {
+                    visited[v] = true;
+                    queue.add(v);
+                }
+            }
+        }
+
+        // Verifica se todos os vértices com arestas foram visitados
+        for (int u = 1; u <= numVertices; u++) {
+            if (!getSucessoresDiretos(u).isEmpty() && !visited[u]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
+    /**
+     * Verifica se o grafo é biconectado.
+     *
+     * @return true se o grafo for biconectado, false caso contrário.
+     */
+    public boolean isBiconnected() {
+        // Verifica se o grafo está conectado
+        if (!isConnected()) {
+            System.out.println("O grafo não está conectado.");
+            return false;
+        }
+
+        int numVertices = getNumVertices();
+        // Itera sobre todos os pares de vértices
+        for (int origem = 1; origem <= numVertices; origem++) {
+            for (int destino = origem + 1; destino <= numVertices; destino++) {
+                if (!hasTwoInternallyDisjointPaths(origem, destino)) {
+                    System.out.println("Entre os vértices " + origem + " e " + destino + ", não existem dois caminhos internamente disjuntos.");
+                    return false;
+                }
+            }
+        }
+
+        System.out.println("O grafo é biconectado.");
+        return true;
+    }
+
+    /**
+     * Verifica se existem dois caminhos internamente disjuntos entre origem e destino.
+     *
+     * @param origem  Vértice de origem.
+     * @param destino Vértice de destino.
+     * @return true se existirem dois caminhos internamente disjuntos, false caso contrário.
+     */
+    private boolean hasTwoInternallyDisjointPaths(int origem, int destino) {
+        // Encontra o primeiro caminho
+        List<Integer> path1 = findPath(origem, destino, null);
+        if (path1.isEmpty()) {
+            // Nenhum caminho existe
+            return false;
+        }
+
+        // Bloqueia os vértices internos do primeiro caminho (excluindo origem e destino)
+        Set<Integer> blocked = new HashSet<>(path1);
+        blocked.remove(origem);
+        blocked.remove(destino);
+
+        // Encontra o segundo caminho ignorando os vértices bloqueados
+        List<Integer> path2 = findPath(origem, destino, blocked);
+
+        return !path2.isEmpty();
+    }
+
+    /**
+     * Encontra um caminho entre origem e destino, ignorando certos vértices.
+     *
+     * @param origem   Vértice de origem.
+     * @param destino  Vértice de destino.
+     * @param blocked  Conjunto de vértices a serem ignorados (vértices bloqueados).
+     * @return Lista representando o caminho encontrado. Lista vazia se nenhum caminho for encontrado.
+     */
+    private List<Integer> findPath(int origem, int destino, Set<Integer> blocked) {
+        Stack<Integer> stack = new Stack<>();
+        Set<Integer> visited = new HashSet<>();
+        Map<Integer, Integer> parent = new HashMap<>();
+
+        stack.push(origem);
+        visited.add(origem);
+
+        while (!stack.isEmpty()) {
+            int current = stack.pop();
+
+            if (current == destino) {
+                // Reconstruir o caminho
+                List<Integer> path = new ArrayList<>();
+                int node = destino;
+                while (node != origem) {
+                    path.add(node);
+                    node = parent.get(node);
+                    if (node == -1) { // Caminho não encontrado
+                        return new ArrayList<>();
+                    }
+                }
+                path.add(origem);
+                Collections.reverse(path);
+                return path;
+            }
+
+            for (int neighbor : getSucessoresDiretos(current)) {
+                if ((blocked == null || !blocked.contains(neighbor)) && !visited.contains(neighbor)) {
+                    stack.push(neighbor);
+                    visited.add(neighbor);
+                    parent.put(neighbor, current);
+                }
+            }
+        }
+
+        // Nenhum caminho encontrado
+        return new ArrayList<>();
+    }
+
+    /**
+     * Verifica a biconectividade do grafo utilizando a abordagem de dois caminhos internamente disjuntos.
+     */
+    @Override
+    public void run() {
+        verificarBiconectividadeGrafo();
+        findJoints();
+    }
+    public void verificarBiconectividadeGrafo() {
+        boolean biconectado = true;
+        List<String> paresNaoBiconectados = new ArrayList<>();
+        
+        int numVertices = getNumVertices();
+        
+        // Itera sobre todos os pares de vértices
+        for (int origem = 1; origem <= numVertices; origem++) {
+            for (int destino = origem + 1; destino <= numVertices; destino++) {
+                if (!hasTwoInternallyDisjointPaths(origem, destino)) {
+                    biconectado = false;
+                    paresNaoBiconectados.add(origem + " - " + destino);
+                }
+            }
+        }
+        // System.out.println("Pelo metodo de verificar 2 caminhos internamente disjuntos:");
+        // // Reporta os resultados
+        // if (biconectado) {
+        //     System.out.println("O grafo é biconectado.");
+        // } else {
+        //     System.out.println("O grafo NÃO é biconectado.");
+        // }
+    }
+    public List<Integer> findJoints() {
+        GrafoInterativo clone = this.clone();  // Clona o grafo uma única vez
+        List<Integer> articulacoes = new ArrayList<>();
+        
+        for (int i = 1; i <= clone.getNumVertices(); i++) {
+            GrafoInterativo grafoClone = clone.clone();  // Clona a cada iteração, mas de forma controlada
+            grafoClone.removeVertice(i);
+            
+            boolean verificador = grafoClone.ehConexo(i);
+    
+            if (!verificador) {
+                articulacoes.add(i);  // Adiciona o vértice atual à lista de articulações
+            }
+        }
+        
+        return articulacoes;  // Retorna a lista de articulações
+    }
+    
 }
