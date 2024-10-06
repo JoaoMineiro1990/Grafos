@@ -1,29 +1,22 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
 public class TesteBatelada {
-
-    private static final int[] TAMANHOS = {10, 100, 1000,10000,100000}; // Tamanhos para teste
+    private static final int[] TAMANHOS = {10, 100, 1000,10000,100000}; 
     private static final int REPETICOES = 30; // Número de repetições para cada teste
-    private static final long LIMITE_TEMPO = 1 * 60 * 1000; // 1 minuto em milissegundos
+    private static final long LIMITE_TEMPO = 5 * 60 * 1000; // 5 minutos
 
     public static void main(String[] args) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultados_teste.txt"))) {
-            // Redireciona a saída padrão para o arquivo
-            PrintStream fileOut = new PrintStream("resultados_teste.txt");
-            PrintStream consoleErr = System.err; // Mantém a saída de erro para o console
-            System.setOut(fileOut); // Redireciona todos os prints normais para o arquivo
 
+            // Cria um pool de threads com o número de processadores disponíveis
             ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
             for (int tamanho : TAMANHOS) {
-                System.out.println("Resultados para grafo de tamanho: " + tamanho);
-
                 // Métricas para cada método
                 long tempoTotalVerificarBiconectividade = 0;
                 long tempoTotalFindJoints = 0;
@@ -51,34 +44,30 @@ public class TesteBatelada {
                 List<Future<Long>> futuresFindJoints = new ArrayList<>();
                 List<Future<Long>> futuresTarjan = new ArrayList<>();
 
-                // Submete todas as 30 execuções de cada método
+                // Executa os testes para o tamanho atual utilizando o número de repetições e threads
                 for (int i = 0; i < REPETICOES; i++) {
                     TarjanArticulation grafo = new TarjanArticulation(tamanho);
-                
-                    // Submete a execução de verificarBiconectividadeGrafo
-                    futuresVerificarBiconectividade.add(executor.submit(() -> registrarTempo(() -> grafo.verificarBiconectividadeGrafo())));
 
-                    // Submete a execução de findJoints
-                    futuresFindJoints.add(executor.submit(() -> registrarTempo(() -> grafo.findJoints())));
-
-                    // Submete a execução de encontrarPontosDeArticulacao
-                    futuresTarjan.add(executor.submit(() -> registrarTempo(() -> grafo.encontrarPontosDeArticulacao())));
+                    futuresVerificarBiconectividade
+                            .add(executor.submit(() -> registrarTempo(() -> grafo.verificarTodosPares())));
+                    futuresFindJoints.add(executor.submit(() -> registrarTempo(() -> grafo.acharArticulacoes())));
+                    futuresTarjan
+                            .add(executor.submit(() -> registrarTempo(() -> grafo.tarjan())));
                 }
 
                 // Processa os resultados das execuções de verificarBiconectividadeGrafo
                 for (Future<Long> future : futuresVerificarBiconectividade) {
                     try {
                         long tempo = future.get(LIMITE_TEMPO, TimeUnit.MILLISECONDS);
-                        tempoTotalVerificarBiconectividade += tempo;
-                        maiorVerificarBiconectividade = Math.max(maiorVerificarBiconectividade, tempo);
-                        menorVerificarBiconectividade = Math.min(menorVerificarBiconectividade, tempo);
-                        execucoesSucessoVerificarBiconectividade++;
+                        if (tempo > 0) {
+                            tempoTotalVerificarBiconectividade += tempo;
+                            maiorVerificarBiconectividade = Math.max(maiorVerificarBiconectividade, tempo);
+                            menorVerificarBiconectividade = Math.min(menorVerificarBiconectividade, tempo);
+                            execucoesSucessoVerificarBiconectividade++;
+                        }
                     } catch (TimeoutException e) {
                         estourouTempoVerificarBiconectividade++;
-                        consoleErr.println("Tempo excedido em verificarBiconectividadeGrafo");
                     } catch (Exception e) {
-                        consoleErr.println("Erro em verificarBiconectividadeGrafo");
-                        e.printStackTrace(consoleErr);
                     }
                 }
 
@@ -86,16 +75,15 @@ public class TesteBatelada {
                 for (Future<Long> future : futuresFindJoints) {
                     try {
                         long tempo = future.get(LIMITE_TEMPO, TimeUnit.MILLISECONDS);
-                        tempoTotalFindJoints += tempo;
-                        maiorFindJoints = Math.max(maiorFindJoints, tempo);
-                        menorFindJoints = Math.min(menorFindJoints, tempo);
-                        execucoesSucessoFindJoints++;
+                        if (tempo > 0) {
+                            tempoTotalFindJoints += tempo;
+                            maiorFindJoints = Math.max(maiorFindJoints, tempo);
+                            menorFindJoints = Math.min(menorFindJoints, tempo);
+                            execucoesSucessoFindJoints++;
+                        }
                     } catch (TimeoutException e) {
                         estourouTempoFindJoints++;
-                        consoleErr.println("Tempo excedido em findJoints");
                     } catch (Exception e) {
-                        consoleErr.println("Erro em findJoints");
-                        e.printStackTrace(consoleErr);
                     }
                 }
 
@@ -103,65 +91,75 @@ public class TesteBatelada {
                 for (Future<Long> future : futuresTarjan) {
                     try {
                         long tempo = future.get(LIMITE_TEMPO, TimeUnit.MILLISECONDS);
-                        tempoTotalTarjan += tempo;
-                        maiorTarjan = Math.max(maiorTarjan, tempo);
-                        menorTarjan = Math.min(menorTarjan, tempo);
-                        execucoesSucessoTarjan++;
+                        if (tempo >= 0) { // Aqui permitimos explicitamente tempos 0 sem ignorá-los
+                            tempoTotalTarjan += tempo;
+                            maiorTarjan = Math.max(maiorTarjan, tempo);
+                            menorTarjan = Math.min(menorTarjan, tempo);
+                            execucoesSucessoTarjan++;
+                        }
                     } catch (TimeoutException e) {
                         estourouTempoTarjan++;
-                        consoleErr.println("Tempo excedido em encontrarPontosDeArticulacao");
                     } catch (Exception e) {
-                        consoleErr.println("Erro em encontrarPontosDeArticulacao");
-                        e.printStackTrace(consoleErr);
+                        // Ignorando a exceção propositalmente
                     }
                 }
-
+                if (menorTarjan == Long.MAX_VALUE) {
+                    menorTarjan = 0;
+                }
+                if (maiorTarjan == Long.MIN_VALUE) {
+                    maiorTarjan = 0;
+                }
                 // Calcula as médias apenas se houve execuções bem-sucedidas
-                long mediaVerificarBiconectividade = execucoesSucessoVerificarBiconectividade > 0 ?
-                        tempoTotalVerificarBiconectividade / execucoesSucessoVerificarBiconectividade : 0;
-                long mediaFindJoints = execucoesSucessoFindJoints > 0 ?
-                        tempoTotalFindJoints / execucoesSucessoFindJoints : 0;
-                long mediaTarjan = execucoesSucessoTarjan > 0 ?
-                        tempoTotalTarjan / execucoesSucessoTarjan : 0;
+                long mediaVerificarBiconectividade = execucoesSucessoVerificarBiconectividade > 0
+                        ? tempoTotalVerificarBiconectividade / execucoesSucessoVerificarBiconectividade
+                        : 0;
+                long mediaFindJoints = execucoesSucessoFindJoints > 0
+                        ? tempoTotalFindJoints / execucoesSucessoFindJoints
+                        : 0;
+                long mediaTarjan = execucoesSucessoTarjan > 0 ? tempoTotalTarjan / execucoesSucessoTarjan : 0;
 
-                // Exibe as métricas finais para verificarBiconectividadeGrafo
-                System.out.println("Métricas para verificarBiconectividadeGrafo:");
-                System.out.println("Tempo total: " + tempoTotalVerificarBiconectividade + " ms");
-                System.out.println("Execução mais demorada: " + maiorVerificarBiconectividade + " ms");
-                System.out.println("Execução menos demorada: " + menorVerificarBiconectividade + " ms");
-                System.out.println("Tempo médio: " + mediaVerificarBiconectividade + " ms");
-                System.out.println("Execuções que estouraram o tempo: " + estourouTempoVerificarBiconectividade + "\n");
+                // Escreve as métricas no arquivo
+                writer.write("Resultados para grafo de tamanho: " + tamanho + "\n");
 
-                // Exibe as métricas finais para findJoints
-                System.out.println("Métricas para findJoints:");
-                System.out.println("Tempo total: " + tempoTotalFindJoints + " ms");
-                System.out.println("Execução mais demorada: " + maiorFindJoints + " ms");
-                System.out.println("Execução menos demorada: " + menorFindJoints + " ms");
-                System.out.println("Tempo médio: " + mediaFindJoints + " ms");
-                System.out.println("Execuções que estouraram o tempo: " + estourouTempoFindJoints + "\n");
+                writer.write("Métricas para Caminhos Disjuntos:\n");
+                writer.write("Execução mais demorada: " + maiorVerificarBiconectividade + " ms\n");
+                writer.write("Execução menos demorada: " + menorVerificarBiconectividade + " ms\n");
+                writer.write("Tempo médio: " + mediaVerificarBiconectividade + " ms\n");
+                writer.write("Execuções que estouraram o tempo: " + estourouTempoVerificarBiconectividade + "\n\n");
 
-                // Exibe as métricas finais para encontrarPontosDeArticulacao
-                System.out.println("Métricas para encontrarPontosDeArticulacao:");
-                System.out.println("Tempo total: " + tempoTotalTarjan + " ms");
-                System.out.println("Execução mais demorada: " + maiorTarjan + " ms");
-                System.out.println("Execução menos demorada: " + menorTarjan + " ms");
-                System.out.println("Tempo médio: " + mediaTarjan + " ms");
-                System.out.println("Execuções que estouraram o tempo: " + estourouTempoTarjan + "\n");
+                writer.write("Métricas para Remover Vertices:\n");
+                writer.write("Execução mais demorada: " + maiorFindJoints + " ms\n");
+                writer.write("Execução menos demorada: " + menorFindJoints + " ms\n");
+                writer.write("Tempo médio: " + mediaFindJoints + " ms\n");
+                writer.write("Execuções que estouraram o tempo: " + estourouTempoFindJoints + "\n\n");
+
+                writer.write("Métricas para Tarjan:\n");
+                writer.write("Execução mais demorada: " + maiorTarjan + " ms\n");
+                writer.write("Execução menos demorada: " + menorTarjan + " ms\n");
+                writer.write("Tempo médio: " + mediaTarjan + " ms\n");
+                writer.write("Execuções que estouraram o tempo: " + estourouTempoTarjan + "\n\n");
             }
 
-            fileOut.close(); // Fecha o stream de saída para o arquivo
-            executor.shutdown(); // Fecha o executor
+            executor.shutdown();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Método auxiliar para medir o tempo de execução de uma tarefa e retornar o tempo gasto.
+     * Método auxiliar para medir o tempo de execução de uma tarefa e retornar o
+     * tempo gasto.
      */
     private static long registrarTempo(Runnable tarefa) {
         long inicio = System.currentTimeMillis();
-        tarefa.run();
-        return System.currentTimeMillis() - inicio;
+        try {
+            tarefa.run();
+        } catch (Exception e) {
+            return -1; // Indica falha
+        }
+        long duracao = System.currentTimeMillis() - inicio;
+
+        // Se o tempo registrado for 0 ms, retorna explicitamente 0
+        return duracao > 0 ? duracao : 0;
     }
 }

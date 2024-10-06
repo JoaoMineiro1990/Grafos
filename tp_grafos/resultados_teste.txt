@@ -1,0 +1,110 @@
+Resultados para grafo de tamanho: 10
+Métricas para verificarBiconectividadeGrafo:
+Tempo total: 309 ms
+Execução mais demorada: 33 ms
+Execução menos demorada: 28 ms
+Tempo médio: 30 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para findJoints:
+Tempo total: 341 ms
+Execução mais demorada: 35 ms
+Execução menos demorada: 33 ms
+Tempo médio: 34 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para encontrarPontosDeArticulacao:
+Tempo total: 0 ms
+Execução mais demorada: 0 ms
+Execução menos demorada: 0 ms
+Tempo médio: 0 ms
+Execuções que estouraram o tempo: 0
+
+Resultados para grafo de tamanho: 100
+Métricas para verificarBiconectividadeGrafo:
+Tempo total: 3062 ms
+Execução mais demorada: 309 ms
+Execução menos demorada: 301 ms
+Tempo médio: 306 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para findJoints:
+Tempo total: 2825 ms
+Execução mais demorada: 289 ms
+Execução menos demorada: 260 ms
+Tempo médio: 282 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para encontrarPontosDeArticulacao:
+Tempo total: 0 ms
+Execução mais demorada: 0 ms
+Execução menos demorada: 0 ms
+Tempo médio: 0 ms
+Execuções que estouraram o tempo: 0
+
+Resultados para grafo de tamanho: 1000
+Métricas para verificarBiconectividadeGrafo:
+Tempo total: 1129735 ms
+Execução mais demorada: 113801 ms
+Execução menos demorada: 111459 ms
+Tempo médio: 112973 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para findJoints:
+Tempo total: 27291 ms
+Execução mais demorada: 2772 ms
+Execução menos demorada: 2691 ms
+Tempo médio: 2729 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para encontrarPontosDeArticulacao:
+Tempo total: 11 ms
+Execução mais demorada: 2 ms
+Execução menos demorada: 0 ms
+Tempo médio: 1 ms
+Execuções que estouraram o tempo: 0
+
+Resultados para grafo de tamanho: 10000
+Métricas para verificarBiconectividadeGrafo:
+Tempo total: 0 ms
+Execução mais demorada: -9223372036854775808 ms
+Execução menos demorada: 9223372036854775807 ms
+Tempo médio: 0 ms
+Execuções que estouraram o tempo: 10
+
+Métricas para findJoints:
+Tempo total: 2591028 ms
+Execução mais demorada: 268550 ms
+Execução menos demorada: 255481 ms
+Tempo médio: 259102 ms
+Execuções que estouraram o tempo: 0
+
+Métricas para encontrarPontosDeArticulacao:
+Tempo total: 42 ms
+Execução mais demorada: 8 ms
+Execução menos demorada: 2 ms
+Tempo médio: 4 ms
+Execuções que estouraram o tempo: 0
+
+Resultados para grafo de tamanho: 100000
+Métricas para verificarBiconectividadeGrafo:
+Tempo total: 0 ms
+Execução mais demorada: -9223372036854775808 ms
+Execução menos demorada: 9223372036854775807 ms
+Tempo médio: 0 ms
+Execuções que estouraram o tempo: 10
+
+Métricas para findJoints:
+Tempo total: 0 ms
+Execução mais demorada: -9223372036854775808 ms
+Execução menos demorada: 9223372036854775807 ms
+Tempo médio: 0 ms
+Execuções que estouraram o tempo: 10
+
+Métricas para encontrarPontosDeArticulacao:
+Tempo total: 797 ms
+Execução mais demorada: 225 ms
+Execução menos demorada: 83 ms
+Tempo médio: 132 ms
+Execuções que estouraram o tempo: 4
+

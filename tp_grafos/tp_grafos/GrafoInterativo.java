@@ -10,14 +10,14 @@ class GrafoInterativo implements Runnable, Cloneable {
     private int[] TD; // Tempo de Descoberta
     private int[] TT; // Tempo de Término
     private int[] pai; // Pai na DFS
-
     // Contador para marcar o tempo de descoberta e término
     private int contador;
-
     // Lista que guarda as arestas e seus tipos
     private ArrayList<TypeAresta> arestas;
 
-    //Construtor padrão.
+    /*
+     * Construtores
+     */
     public GrafoInterativo() {
         adjList = new HashMap<>();
         TD = new int[0];
@@ -113,10 +113,19 @@ class GrafoInterativo implements Runnable, Cloneable {
         }
     }
 
+    /**
+     * Retorna o número de vértices do grafo.
+     *
+     * @return Número de vértices.
+     */
     public int getNumVertices() {
         return adjList.size();
     }
 
+    /**
+     * remove um vértice do grafo e suas arestas
+     * @param vertice a ser removido
+     */
     public void removeVertice(int vertice) {
         adjList.remove(vertice);
 
@@ -164,19 +173,11 @@ class GrafoInterativo implements Runnable, Cloneable {
     }
 
     /**
-     * Método para printar o grafo
+     * Adiciona uma aresta ao grafo.
+     *
+     * @param u Vértice de origem.
+     * @param v Vértice de destino.
      */
-    void printGrafo() {
-        for (Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
-            System.out.print(entry.getKey() + " -> ");
-            for (Integer i : entry.getValue()) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    // Adiciona uma aresta de u para v
     public void addAresta(int u, int v) {
         adjList.get(u).add(v);
     }
@@ -199,6 +200,10 @@ class GrafoInterativo implements Runnable, Cloneable {
         }
     }
 
+    /**
+     * Função que realiza a busca em profundidade em ordem lexicográfica
+     * @param raiz vértice de origem
+     */
     private void BP(int raiz) {
         // Cria uma nova pilha para simulação da recursão e adiciona a raiz
         Stack<Integer> stack = new Stack<>();
@@ -270,7 +275,12 @@ class GrafoInterativo implements Runnable, Cloneable {
         }
     }
 
-    // Método para obter as arestas classificadas
+    /**
+     * Retorna o tempo de descoberta de um vértice.
+     *
+     * @param vertice Vértice a ser verificado.
+     * @return Tempo de descoberta do vértice.
+     */
     public ArrayList<TypeAresta> getArestas() {
         return arestas;
     }
@@ -300,6 +310,7 @@ class GrafoInterativo implements Runnable, Cloneable {
      * @return true se o grafo é conexo, false caso contrário.
      */
     public boolean ehConexo(int valor) {
+        //clonando para poder usar threads
         GrafoInterativo clone = clone();
         return clone._ehConexo(valor);
     }
@@ -340,105 +351,29 @@ class GrafoInterativo implements Runnable, Cloneable {
     }
 
     /**
-     * Verifica se o grafo está conectado.
-     *
-     * @return true se estiver conectado, false caso contrário.
-     */
-    public boolean isConnected() {
-        int numVertices = getNumVertices();
-        if (numVertices == 0 || numVertices == 1) {
-            return true;
-        }
-
-        boolean[] visited = new boolean[numVertices + 1];
-        Queue<Integer> queue = new LinkedList<>();
-
-        // Encontra o primeiro vértice com pelo menos uma aresta
-        int start = 1;
-        while (start <= numVertices && getSucessoresDiretos(start).isEmpty()) {
-            start++;
-        }
-
-        if (start > numVertices) {
-            // Grafo sem arestas (todos vértices isolados)
-            return numVertices <= 1;
-        }
-
-        // BFS a partir do vértice start
-        queue.add(start);
-        visited[start] = true;
-
-        while (!queue.isEmpty()) {
-            int u = queue.poll();
-            for (int v : getSucessoresDiretos(u)) {
-                if (!visited[v]) {
-                    visited[v] = true;
-                    queue.add(v);
-                }
-            }
-        }
-
-        // Verifica se todos os vértices com arestas foram visitados
-        for (int u = 1; u <= numVertices; u++) {
-            if (!getSucessoresDiretos(u).isEmpty() && !visited[u]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Verifica se o grafo é biconectado.
-     *
-     * @return true se o grafo for biconectado, false caso contrário.
-     */
-    public boolean isBiconnected() {
-        // Verifica se o grafo está conectado
-        if (!isConnected()) {
-            System.out.println("O grafo não está conectado.");
-            return false;
-        }
-
-        int numVertices = getNumVertices();
-        // Itera sobre todos os pares de vértices
-        for (int origem = 1; origem <= numVertices; origem++) {
-            for (int destino = origem + 1; destino <= numVertices; destino++) {
-                if (!hasTwoInternallyDisjointPaths(origem, destino)) {
-                    System.out.println("Entre os vértices " + origem + " e " + destino + ", não existem dois caminhos internamente disjuntos.");
-                    return false;
-                }
-            }
-        }
-
-        System.out.println("O grafo é biconectado.");
-        return true;
-    }
-
-    /**
      * Verifica se existem dois caminhos internamente disjuntos entre origem e destino.
      *
      * @param origem  Vértice de origem.
      * @param destino Vértice de destino.
      * @return true se existirem dois caminhos internamente disjuntos, false caso contrário.
      */
-    private boolean hasTwoInternallyDisjointPaths(int origem, int destino) {
+    private boolean ExisteDoisCaminhosDisjuntos(int origem, int destino) {
         // Encontra o primeiro caminho
-        List<Integer> path1 = findPath(origem, destino, null);
-        if (path1.isEmpty()) {
+        List<Integer> caminhosIda = AcharCaminhos(origem, destino, null);
+        if (caminhosIda.isEmpty()) {
             // Nenhum caminho existe
             return false;
         }
 
         // Bloqueia os vértices internos do primeiro caminho (excluindo origem e destino)
-        Set<Integer> blocked = new HashSet<>(path1);
+        Set<Integer> blocked = new HashSet<>(caminhosIda);
         blocked.remove(origem);
         blocked.remove(destino);
 
         // Encontra o segundo caminho ignorando os vértices bloqueados
-        List<Integer> path2 = findPath(origem, destino, blocked);
+        List<Integer> caminhosVolta = AcharCaminhos(origem, destino, blocked);
 
-        return !path2.isEmpty();
+        return !caminhosVolta.isEmpty();
     }
 
     /**
@@ -449,7 +384,7 @@ class GrafoInterativo implements Runnable, Cloneable {
      * @param blocked  Conjunto de vértices a serem ignorados (vértices bloqueados).
      * @return Lista representando o caminho encontrado. Lista vazia se nenhum caminho for encontrado.
      */
-    private List<Integer> findPath(int origem, int destino, Set<Integer> blocked) {
+    private List<Integer> AcharCaminhos(int origem, int destino, Set<Integer> blocked) {
         Stack<Integer> stack = new Stack<>();
         Set<Integer> visited = new HashSet<>();
         Map<Integer, Integer> parent = new HashMap<>();
@@ -458,29 +393,29 @@ class GrafoInterativo implements Runnable, Cloneable {
         visited.add(origem);
 
         while (!stack.isEmpty()) {
-            int current = stack.pop();
+            int atual = stack.pop();
 
-            if (current == destino) {
+            if (atual == destino) {
                 // Reconstruir o caminho
-                List<Integer> path = new ArrayList<>();
-                int node = destino;
-                while (node != origem) {
-                    path.add(node);
-                    node = parent.get(node);
-                    if (node == -1) { // Caminho não encontrado
+                List<Integer> caminho = new ArrayList<>();
+                int fim = destino;
+                while (fim != origem) {
+                    caminho.add(fim);
+                    fim = parent.get(fim);
+                    if (fim == -1) { // Caminho não encontrado
                         return new ArrayList<>();
                     }
                 }
-                path.add(origem);
-                Collections.reverse(path);
-                return path;
+                caminho.add(origem);
+                Collections.reverse(caminho);
+                return caminho;
             }
 
-            for (int neighbor : getSucessoresDiretos(current)) {
-                if ((blocked == null || !blocked.contains(neighbor)) && !visited.contains(neighbor)) {
-                    stack.push(neighbor);
-                    visited.add(neighbor);
-                    parent.put(neighbor, current);
+            for (int vizinhos : getSucessoresDiretos(atual)) {
+                if ((blocked == null || !blocked.contains(vizinhos)) && !visited.contains(vizinhos)) {
+                    stack.push(vizinhos);
+                    visited.add(vizinhos);
+                    parent.put(vizinhos, atual);
                 }
             }
         }
@@ -494,10 +429,14 @@ class GrafoInterativo implements Runnable, Cloneable {
      */
     @Override
     public void run() {
-        verificarBiconectividadeGrafo();
-        findJoints();
+        verificarTodosPares();
+        acharArticulacoes();
     }
-    public void verificarBiconectividadeGrafo() {
+    /**
+     * Verifica a biconectividade do grafo utilizando a abordagem de dois caminhos internamente disjuntos.
+     * @param return printa o resultado
+     */
+    public void verificarTodosPares() {
         boolean biconectado = true;
         List<String> paresNaoBiconectados = new ArrayList<>();
         
@@ -506,12 +445,13 @@ class GrafoInterativo implements Runnable, Cloneable {
         // Itera sobre todos os pares de vértices
         for (int origem = 1; origem <= numVertices; origem++) {
             for (int destino = origem + 1; destino <= numVertices; destino++) {
-                if (!hasTwoInternallyDisjointPaths(origem, destino)) {
+                if (!ExisteDoisCaminhosDisjuntos(origem, destino)) {
                     biconectado = false;
                     paresNaoBiconectados.add(origem + " - " + destino);
                 }
             }
         }
+        // OS PRINTS FORAM REMOVIDOS PARA NAO IMPACTAR NO TEMPO DE EXECUCAO
         // System.out.println("Pelo metodo de verificar 2 caminhos internamente disjuntos:");
         // // Reporta os resultados
         // if (biconectado) {
@@ -520,7 +460,13 @@ class GrafoInterativo implements Runnable, Cloneable {
         //     System.out.println("O grafo NÃO é biconectado.");
         // }
     }
-    public List<Integer> findJoints() {
+
+    /**
+     * Método para encontrar os pontos de articulação do grafo.
+     * utilizando a remoção de um vértice por vez e verificando a conexão do grafo.
+     * @return lista de pontos de articulação
+     */
+    public List<Integer> acharArticulacoes() {
         GrafoInterativo clone = this.clone();  // Clona o grafo uma única vez
         List<Integer> articulacoes = new ArrayList<>();
         

@@ -2,38 +2,42 @@ import java.util.*;
 
 public class TarjanArticulation extends GrafoInterativo {
     private int[] disc; // Tempo de descoberta
-    private int[] low;  // Menor tempo alcançável
-    private boolean[] articulationPoints;
+    private int[] minimo;  // Menor tempo alcançável
+    private boolean[] articulacoes;// Pontos de articulaçao
     private int time;
 
 
     public TarjanArticulation(int numVertices) {
         super(numVertices);
         disc = new int[numVertices + 1];
-        low = new int[numVertices + 1];
-        articulationPoints = new boolean[numVertices + 1];
+        minimo = new int[numVertices + 1];
+        articulacoes = new boolean[numVertices + 1];
         time = 0;
     }
     @Override
     public void run() {
-        encontrarPontosDeArticulacao();
+        tarjan();
     }
-    public void encontrarPontosDeArticulacao() {
+    /**
+     * Método de Tarjan para encontrar pontos de articulação
+     * @param return printa os pontos de articulação
+     */
+    public void tarjan() {
         Arrays.fill(disc, -1);
-        Arrays.fill(low, -1);
-        Arrays.fill(articulationPoints, false);
+        Arrays.fill(minimo, -1);
+        Arrays.fill(articulacoes, false);
 
         for (int u = 1; u <= getNumVertices(); u++) {
             if (disc[u] == -1) {
                 dfs(u, -1);
             }
         }
-
-        imprimirPontosDeArticulacao();
+        //PRINT REMOVIDO PARA NAO IMPACTAR O TEMPO DE EXECUCAO
+        // imprimirPontosDeArticulacao();
     }
 
     private void dfs(int u, int parent) {
-        disc[u] = low[u] = ++time;
+        disc[u] = minimo[u] = ++time;
         int children = 0;
 
         for (int v : getSucessoresDiretos(u)) {
@@ -44,41 +48,40 @@ public class TarjanArticulation extends GrafoInterativo {
             if (disc[v] == -1) {
                 children++;
                 dfs(v, u);
-                low[u] = Math.min(low[u], low[v]);
+                minimo[u] = Math.min(minimo[u], minimo[v]);
 
-                // Se u não é raiz e low[v] >= disc[u], então u é um ponto de articulação
-                if (parent != -1 && low[v] >= disc[u]) {
-                    articulationPoints[u] = true;
+                // Se u nao eh raiz e minimo[v] >= disc[u] logo u eh um ponto de articulaçao
+                if (parent != -1 && minimo[v] >= disc[u]) {
+                    articulacoes[u] = true;
                 }
             } else {
-                // Atualiza low[u] se v já foi visitado e não é o pai
-                low[u] = Math.min(low[u], disc[v]);
+                // Atualiza minimo[u] se v já foi visitado e nao eh o pai
+                minimo[u] = Math.min(minimo[u], disc[v]);
             }
         }
-
-        // Se u é a raiz e tem mais de um filho, então u é um ponto de articulação
+        // Se u eh a raiz e tem mais de um filho, logo u eh um ponto de articulaçao
         if (parent == -1 && children > 1) {
-            articulationPoints[u] = true;
+            articulacoes[u] = true;
         }
     }
 
     public void imprimirPontosDeArticulacao() {
-        // boolean hasArticulationPoints = false;
-        // System.out.println("Pelo Método de Tarjan:");
-        // System.out.println("Pontos de Articulação:");
-        // System.out.print("{ ");
+        boolean temArticulacoes = false;
+        System.out.println("Pelo Mehtodo de Tarjan:");
+        System.out.println("Pontos de Articulaçao:");
+        System.out.print("{ ");
         
-        // for (int u = 1; u <= grafo.getNumVertices(); u++) {
-        //                 if (articulationPoints[u]) {
-        //         System.out.print(u + ", ");
-        //         hasArticulationPoints = true;
-        //     }
-        // }
-        // System.out.println("}");
+        for (int u = 1; u <= getNumVertices(); u++) {
+                        if (articulacoes[u]) {
+                System.out.print(u + ", ");
+                temArticulacoes = true;
+            }
+        }
+        System.out.println("}");
 
-        // if (!hasArticulationPoints) {
-        //     System.out.println("Nenhum ponto de articulação encontrado. O grafo é biconectado.");
-        // }
+        if (!temArticulacoes) {
+            System.out.println("Nenhum ponto de articulaçao encontrado. O grafo eh biconectado.");
+        }
     }
 
 }

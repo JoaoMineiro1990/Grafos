@@ -1,9 +1,8 @@
 @echo off
-REM Aumenta o tamanho da stack para 32 MB, remove arquivos .class, compila todos os arquivos Java e executa TesteBateladaPontosArticulacao
+REM Aumenta o tamanho da stack para 32 MB, remove arquivos .class, compila todos os arquivos Java e executa TesteBatelada
 
-REM Definir o diretório onde os arquivos .java estão localizados
-cd /d "C:\Users\joao_\Desktop\Grafos\tp_grafos\tp_grafos"
-
+REM Exibir os passos no console
+echo Removendo arquivos .class...
 REM Verificar se há arquivos .class antes de tentar removê-los
 if exist *.class (
     del *.class
@@ -12,6 +11,7 @@ if exist *.class (
     echo Nenhum arquivo .class encontrado.
 )
 
+echo Compilando arquivos Java...
 REM Compilar todos os arquivos .java no diretório
 javac *.java
 
@@ -20,13 +20,16 @@ if %ERRORLEVEL% neq 0 (
     echo Erro na compilação dos arquivos Java.
     pause
     exit /b %ERRORLEVEL%
+) else (
+    echo Compilação bem-sucedida.
 )
 
 REM Definir o CLASSPATH para o diretório atual (pasta com os arquivos .class)
 set CLASSPATH=.
 
-REM Executar o arquivo TesteBateladaPontosArticulacao com a stack aumentada para 32 MB
-java -Xss32m TesteBateladaPontosArticulacao
+echo Executando TesteBatelada...
+REM Executar o arquivo TesteBatelada com a stack aumentada para 32 MB
+java -Xss32m TesteBatelada
 
 REM Pausar para evitar fechamento automático
 pause
