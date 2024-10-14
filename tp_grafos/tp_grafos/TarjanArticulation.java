@@ -1,11 +1,62 @@
+package tp_grafos;
+
+import javax.xml.crypto.Data;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.lang.foreign.MemoryLayout;
 import java.util.*;
 
-public class TarjanArticulation extends GrafoInterativo {
+public class TarjanArticulation extends GrafoInterativo implements Runnable {
     private int[] disc; // Tempo de descoberta
     private int[] minimo;  // Menor tempo alcançável
     private boolean[] articulacoes;// Pontos de articulaçao
-    private int time;
+    private Integer time;
+    private Method method;
+    private final ArrayList<DataSource> data;
 
+    public enum Method {
+        PARES,
+        ARTICULACOES,
+        TARJAN,
+    }
+
+    public ArrayList<DataSource> getData() {
+        return data;
+    }
+
+    public class DataSource {
+        private final Long initalTime;
+        private final Long finalTime;
+        private final Integer graphSize;
+        private final Method method;
+
+        public DataSource(Long initalTime, Long finalTime, Integer graphSize, Method method) {
+            this.initalTime = initalTime;
+            this.finalTime = finalTime;
+            this.method = method;
+            this.graphSize = graphSize;
+        }
+
+        public void writeData(BufferedWriter writer) throws IOException {
+            String method = "";
+            Long totalTime = finalTime - initalTime;
+            switch (this.method) {
+                case PARES:
+                    method = "Caminhos disjuntos";
+                    break;
+
+                case ARTICULACOES:
+                    method = "Remover vertices";
+                    break;
+
+                case TARJAN:
+                    method = "Tarjan";
+                    break;
+            }
+
+            writer.write(method + "(Tamanho do grafo: %d)".formatted(graphSize) + ": " + totalTime + "\n");
+        }
+    }
 
     public TarjanArticulation(int numVertices) {
         super(numVertices);
@@ -13,10 +64,31 @@ public class TarjanArticulation extends GrafoInterativo {
         minimo = new int[numVertices + 1];
         articulacoes = new boolean[numVertices + 1];
         time = 0;
+        data = new ArrayList<>();
     }
+
+    public void setMethod(Method m) {
+        method = m;
+    }
+
     @Override
     public void run() {
-        tarjan();
+        long initialTime = System.currentTimeMillis();
+        Method actualMethod = method;
+        switch (actualMethod ) {
+            case PARES:
+                verificarTodosPares();
+                break;
+            case ARTICULACOES:
+                acharArticulacoes();
+                break;
+
+            case TARJAN:
+                tarjan();
+                break;
+        }
+        long finalTime = System.currentTimeMillis();
+        data.add(new DataSource(initialTime, finalTime, getNumVertices(), actualMethod ));
     }
     /**
      * Método de Tarjan para encontrar pontos de articulação
