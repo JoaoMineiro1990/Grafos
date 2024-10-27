@@ -1,3 +1,7 @@
+package tp_grafos;
+
+import tp_grafos.TypeAresta;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

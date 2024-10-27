@@ -1,110 +1,269 @@
-Resultados para grafo de tamanho: 10
-Métricas para verificarBiconectividadeGrafo:
-Tempo total: 309 ms
-Execução mais demorada: 33 ms
-Execução menos demorada: 28 ms
-Tempo médio: 30 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para findJoints:
-Tempo total: 341 ms
-Execução mais demorada: 35 ms
-Execução menos demorada: 33 ms
-Tempo médio: 34 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para encontrarPontosDeArticulacao:
-Tempo total: 0 ms
-Execução mais demorada: 0 ms
-Execução menos demorada: 0 ms
-Tempo médio: 0 ms
-Execuções que estouraram o tempo: 0
-
-Resultados para grafo de tamanho: 100
-Métricas para verificarBiconectividadeGrafo:
-Tempo total: 3062 ms
-Execução mais demorada: 309 ms
-Execução menos demorada: 301 ms
-Tempo médio: 306 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para findJoints:
-Tempo total: 2825 ms
-Execução mais demorada: 289 ms
-Execução menos demorada: 260 ms
-Tempo médio: 282 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para encontrarPontosDeArticulacao:
-Tempo total: 0 ms
-Execução mais demorada: 0 ms
-Execução menos demorada: 0 ms
-Tempo médio: 0 ms
-Execuções que estouraram o tempo: 0
-
-Resultados para grafo de tamanho: 1000
-Métricas para verificarBiconectividadeGrafo:
-Tempo total: 1129735 ms
-Execução mais demorada: 113801 ms
-Execução menos demorada: 111459 ms
-Tempo médio: 112973 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para findJoints:
-Tempo total: 27291 ms
-Execução mais demorada: 2772 ms
-Execução menos demorada: 2691 ms
-Tempo médio: 2729 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para encontrarPontosDeArticulacao:
-Tempo total: 11 ms
-Execução mais demorada: 2 ms
-Execução menos demorada: 0 ms
-Tempo médio: 1 ms
-Execuções que estouraram o tempo: 0
-
-Resultados para grafo de tamanho: 10000
-Métricas para verificarBiconectividadeGrafo:
-Tempo total: 0 ms
-Execução mais demorada: -9223372036854775808 ms
-Execução menos demorada: 9223372036854775807 ms
-Tempo médio: 0 ms
-Execuções que estouraram o tempo: 10
-
-Métricas para findJoints:
-Tempo total: 2591028 ms
-Execução mais demorada: 268550 ms
-Execução menos demorada: 255481 ms
-Tempo médio: 259102 ms
-Execuções que estouraram o tempo: 0
-
-Métricas para encontrarPontosDeArticulacao:
-Tempo total: 42 ms
-Execução mais demorada: 8 ms
-Execução menos demorada: 2 ms
-Tempo médio: 4 ms
-Execuções que estouraram o tempo: 0
-
-Resultados para grafo de tamanho: 100000
-Métricas para verificarBiconectividadeGrafo:
-Tempo total: 0 ms
-Execução mais demorada: -9223372036854775808 ms
-Execução menos demorada: 9223372036854775807 ms
-Tempo médio: 0 ms
-Execuções que estouraram o tempo: 10
-
-Métricas para findJoints:
-Tempo total: 0 ms
-Execução mais demorada: -9223372036854775808 ms
-Execução menos demorada: 9223372036854775807 ms
-Tempo médio: 0 ms
-Execuções que estouraram o tempo: 10
-
-Métricas para encontrarPontosDeArticulacao:
-Tempo total: 797 ms
-Execução mais demorada: 225 ms
-Execução menos demorada: 83 ms
-Tempo médio: 132 ms
-Execuções que estouraram o tempo: 4
-
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 19
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 1
+Remover vertices(Tamanho do grafo: 10): 17
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 1
+Remover vertices(Tamanho do grafo: 10): 14
+Tarjan(Tamanho do grafo: 10): 0
+Caminhos disjuntos(Tamanho do grafo: 10): 12
+Remover vertices(Tamanho do grafo: 10): 14
+Tarjan(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 1
+Remover vertices(Tamanho do grafo: 10): 11
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 1
+Caminhos disjuntos(Tamanho do grafo: 10): 9
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 8
+Tarjan(Tamanho do grafo: 10): 3
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 5
+Caminhos disjuntos(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 3
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 3
+Tarjan(Tamanho do grafo: 10): 3
+Caminhos disjuntos(Tamanho do grafo: 10): 5
+Remover vertices(Tamanho do grafo: 10): 5
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Caminhos disjuntos(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Caminhos disjuntos(Tamanho do grafo: 10): 2
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 1
+Remover vertices(Tamanho do grafo: 10): 1
+Caminhos disjuntos(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Remover vertices(Tamanho do grafo: 10): 1
+Tarjan(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 10): 0
+Caminhos disjuntos(Tamanho do grafo: 10): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 182
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 167
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 165
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 208
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 1
+Remover vertices(Tamanho do grafo: 100): 185
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 263
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 224
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 183
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 1
+Remover vertices(Tamanho do grafo: 100): 260
+Tarjan(Tamanho do grafo: 100): 2
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 218
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 6
+Remover vertices(Tamanho do grafo: 100): 214
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 6
+Remover vertices(Tamanho do grafo: 100): 235
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 243
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 211
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 263
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 159
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 239
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 163
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 10
+Remover vertices(Tamanho do grafo: 100): 210
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 171
+Tarjan(Tamanho do grafo: 100): 1
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 142
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 163
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 155
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 151
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 133
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 0
+Tarjan(Tamanho do grafo: 100): 1
+Tarjan(Tamanho do grafo: 100): 0
+Remover vertices(Tamanho do grafo: 100): 112
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4120
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Caminhos disjuntos(Tamanho do grafo: 1000): 75611
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4604
+Caminhos disjuntos(Tamanho do grafo: 1000): 72658
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4189
+Tarjan(Tamanho do grafo: 1000): 1
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4669
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4110
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Caminhos disjuntos(Tamanho do grafo: 1000): 67699
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4011
+Caminhos disjuntos(Tamanho do grafo: 1000): 72555
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4256
+Tarjan(Tamanho do grafo: 1000): 1
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4254
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 1
+Remover vertices(Tamanho do grafo: 1000): 4434
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4664
+Tarjan(Tamanho do grafo: 1000): 1
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4440
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4561
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4545
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4500
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 1
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4281
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 3861
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4463
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 1
+Remover vertices(Tamanho do grafo: 1000): 4311
+Tarjan(Tamanho do grafo: 1000): 69
+Tarjan(Tamanho do grafo: 1000): 34
+Remover vertices(Tamanho do grafo: 1000): 4388
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 37
+Remover vertices(Tamanho do grafo: 1000): 4159
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 4
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 4066
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 3962
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Caminhos disjuntos(Tamanho do grafo: 1000): 73700
+Tarjan(Tamanho do grafo: 1000): 0
+Tarjan(Tamanho do grafo: 1000): 0
+Remover vertices(Tamanho do grafo: 1000): 3961
