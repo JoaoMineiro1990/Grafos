@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class TesteBatelada {
-    private static final int[] TAMANHOS = {10, 100, 1000,10000,100000}; 
+    private static final int[] TAMANHOS = { 10, 100, 1000, 10000, 100000 };
     private static final int REPETICOES = 30; // Número de repetições para cada teste
     private static final long LIMITE_TEMPO = 5 * 60 * 1000; // 5 minutos
 
@@ -44,15 +44,15 @@ public class TesteBatelada {
                 List<Future<Long>> futuresFindJoints = new ArrayList<>();
                 List<Future<Long>> futuresTarjan = new ArrayList<>();
 
-                // Executa os testes para o tamanho atual utilizando o número de repetições e threads
+                // Executa os testes para o tamanho atual utilizando o número de repetições e
+                // threads
                 for (int i = 0; i < REPETICOES; i++) {
                     TarjanArticulation grafo = new TarjanArticulation(tamanho);
 
                     futuresVerificarBiconectividade
                             .add(executor.submit(() -> registrarTempo(() -> grafo.verificarTodosPares())));
                     futuresFindJoints.add(executor.submit(() -> registrarTempo(() -> grafo.acharArticulacoes())));
-                    futuresTarjan
-                            .add(executor.submit(() -> registrarTempo(() -> grafo.tarjan())));
+                    futuresTarjan.add(executor.submit(() -> registrarTempo(() -> grafo.tarjan())));
                 }
 
                 // Processa os resultados das execuções de verificarBiconectividadeGrafo

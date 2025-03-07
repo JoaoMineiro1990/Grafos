@@ -1,0 +1,9 @@
+Arquivo, Origem, Destino, Caminhos Disjuntos, Tempo (ms)
+grafo_10v_15e.txt, 1, 10, 3, 5
+grafo_100v_400e.txt, 1, 100, 4, 4
+grafo_1000v_3000e.txt, 1, 1000, 2, 8
+grafo_10000v_30000e.txt, 1, 10000, 2, 87
+lattice_10x10.txt, 1, 100, 2, 3
+lattice_100x100.txt, 1, 10000, 2, 99
+lattice_250x250.txt, 1, 62500, 2, 3282
+lattice_500x500.txt, 1, 250000, 2, 48508

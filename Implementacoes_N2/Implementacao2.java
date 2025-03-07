@@ -75,6 +75,10 @@ class Grafo {
         arestas = new ArrayList<>();
     }
 
+    public Grafo() {
+        //TODO Auto-generated constructor stub
+    }
+
     // Adiciona uma aresta de u para v
     public void addAresta(int u, int v) {
         adjList.get(u).add(v);
@@ -192,6 +196,51 @@ class Grafo {
         }
 
         return arestasConjunto;
+    }
+
+    public void carregarDeArquivo(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'carregarDeArquivo'");
+    }
+
+    public char[] getListaAdjacent() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getListaAdjacent'");
+    }
+
+    public char[] printVertices() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'printVertices'");
+    }
+
+    public void dfsSalvandoAntecessores() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dfsSalvandoAntecessores'");
+    }
+
+    public void printAntecessores(Object dfsSalvandoAntecessores) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'printAntecessores'");
+    }
+
+    public void printAntecessores(Object dfsSalvandoAntecessores) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'printAntecessores'");
+    }
+
+    public void printAntecessores(Object dfsSalvandoAntecessores) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'printAntecessores'");
+    }
+
+    public Object dfsSalvandoAntecessores(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dfsSalvandoAntecessores'");
+    }
+
+    public int calcularCaminhosDisjuntos(int origem, int destino) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularCaminhosDisjuntos'");
     }
 }
 
