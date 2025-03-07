@@ -1,3 +1,4 @@
+package tp_grafos;
 
 class TypeAresta {
     
